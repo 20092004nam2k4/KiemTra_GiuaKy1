@@ -7,7 +7,9 @@ import com.example.testapirestful.service.IComputerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 
 import java.util.List;
@@ -46,7 +48,7 @@ public class ComputerController {
 
 
     @PostMapping
-    public ResponseEntity<Computer> saveCustomer(@RequestBody Computer computer) {
+    public ResponseEntity<Computer> saveCustomer(@RequestBody Computer computer, BindingResult bindingResult) {
         return new ResponseEntity<>(iComputerService.save(computer), HttpStatus.CREATED);
     }
 
@@ -73,11 +75,11 @@ public class ComputerController {
     }
     @GetMapping("/searchByName")
     public ResponseEntity searchByName(@RequestParam String keyword){
-        List<Computer> customers = iComputerRepository.findAllByName(keyword);
-        if (customers.isEmpty()) {
+        List<Computer> computers = iComputerRepository.findAllByName(keyword);
+        if (computers.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(customers, HttpStatus.OK);
+        return new ResponseEntity<>(computers, HttpStatus.OK);
     }
 }
 
